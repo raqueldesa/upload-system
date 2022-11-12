@@ -6,6 +6,7 @@ const UploadPage = () => {
   return (
     <Page>
       <NavBar></NavBar>
+
       <FiledInput></FiledInput>
     </Page>
   );

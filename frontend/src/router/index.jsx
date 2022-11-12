@@ -9,10 +9,12 @@ const Routes = () => {
       <Route path="/" exact>
         <UploadPage></UploadPage>
       </Route>
-      <Route path="/view">
+      <Route path="/relatorios">
         <ViewPage></ViewPage>
       </Route>
-      <Route component={PoliticPage} path="/politic" />
+      <Route path="/politicas">
+        <PoliticPage></PoliticPage>
+      </Route>
     </Switch>
   );
 };

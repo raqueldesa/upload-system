@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { FilledInput } from "@mui/material";
+import { Button, FilledInput } from "@mui/material";
 import Papa from "papaparse";
 import api from "../../services/api";
 
-// Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
 const FiledInput = () => {
@@ -80,36 +79,37 @@ const FiledInput = () => {
   };
 
   return (
-    <div>
-      <label htmlFor="csvInput" style={{ display: "block" }}>
-        Insira o arquivo CSV
-      </label>
-      <FilledInput
-        style={{
-          width: "400px",
-          height: "200px",
-          backgroundColor: "red",
-          color: "white",
-        }}
-        type="file"
-        onChange={handleFileChange}
-        id="csvInput"
-        name="file"
-      ></FilledInput>
-      <div>
-        <button onClick={handleParse}>Parse</button>
-      </div>
-      <div style={{ marginTop: "3rem" }}>
-        {erroBool ? (
-          data.map((col, idx) => (
-            <div key={idx}>
-              data: {col.date} | open: {col.open} | high: {col.high} | low:{" "}
-              {col.low} | close:{col.close}
-            </div>
-          ))
-        ) : (
-          <div>{error}</div>
-        )}
+    <div className="FiledInput">
+      <div className="mod1"></div>
+      <div className="upload">
+        <label htmlFor="csvInput" style={{ display: "block" }}>
+          Upload do arquivo
+        </label>
+
+        <FilledInput
+          style={{
+            width: "300px",
+            height: "150px",
+            backgroundColor: "#83d2de",
+            color: "white",
+            display: "flex",
+            flexDirection: "row",
+          }}
+          type="file"
+          onChange={handleFileChange}
+          id="csvInput"
+          name="file"
+        ></FilledInput>
+        <div className="btns">
+          <Button>Cancelar</Button>
+          <Button variant="contained" onClick={handleParse}>
+            Enviar Arquivos
+          </Button>
+          {/* <button onClick={handleParse}>Parse</button> */}
+        </div>
+        <div style={{ marginTop: "3rem" }}>
+          {erroBool ? <div>Dados Salvos com sucesso</div> : <div>{error}</div>}
+        </div>
       </div>
     </div>
   );
