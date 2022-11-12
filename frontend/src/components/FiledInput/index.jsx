@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FilledInput } from "@mui/material";
 import Papa from "papaparse";
+import api from "../../services/api";
 
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
@@ -26,6 +27,17 @@ const FiledInput = () => {
       setFile(inputFile);
     }
   };
+
+  function dataFormatada(dataA) {
+    var data = new Date(dataA),
+      dia = data.getDate().toString(),
+      diaF = dia.length === 1 ? "0" + dia : dia,
+      mes = (data.getMonth() + 1).toString(),
+      mesF = mes.length === 1 ? "0" + mes : mes,
+      anoF = data.getFullYear();
+    return anoF + "-" + mesF + "-" + diaF;
+  }
+
   const handleParse = () => {
     if (!file) return setError("Insira um arquivo valido");
 
@@ -37,14 +49,14 @@ const FiledInput = () => {
       let obj = [];
 
       parsedData.forEach((e) => {
-        if (e.Data || e.Open || e.High || e.Low || e.Close) {
+        if (e.Data || e.Open || e.High || e.Low || e.Close || e.Volume) {
           obj.push({
-            date: e.Date,
-            open: e.Open,
-            high: e.High,
-            low: e.Low,
-            close: e.Close,
-            volume: e.Volume,
+            date: dataFormatada(e.Date),
+            open: parseFloat(e.Open),
+            high: parseFloat(e.High),
+            low: parseFloat(e.Low),
+            close: parseFloat(e.Close),
+            volume: parseFloat(e.Volume.toString().replace(",", ".")),
           });
         }
       });
@@ -52,7 +64,13 @@ const FiledInput = () => {
       if (obj.length > 0) {
         setErrorBool(true);
         setData(obj);
-        console.log(JSON.stringify(obj));
+        // console.log(JSON.stringify(obj));
+        api
+          .post("/relatorios", obj)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => err);
       } else {
         setErrorBool(false);
         setError("Dados insuficientes");
