@@ -6,6 +6,6 @@ const politicaRoutes = Router();
 
 politicaRoutes.post("", createPoliticasController);
 politicaRoutes.get("", listPoliticasController);
-politicaRoutes.patch("/:id", updateUserController);
+// politicaRoutes.patch("/:id", updateUserController);
 
 module.exports = politicaRoutes;
