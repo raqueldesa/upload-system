@@ -11,16 +11,22 @@ const listRelatoriosService = async () => {
   const valorCritico = politica.dataValues.critico;
 
   relatorios.forEach(async (relatorio) => {
-    if (relatorio.dataValues.volume > valorOtimo) {
-      relatorio.status = "Ótimo";
-      await relatorio.save();
-      return relatorio;
-    } else if (relatorio.dataValues.volume < valorCritico) {
-      relatorio.status = "Critico";
-      await relatorio.save();
-      return relatorio;
+    if (relatorio.dataValues.volume !== null) {
+      if (relatorio.dataValues.volume > valorOtimo) {
+        relatorio.status = "Ótimo";
+        await relatorio.save();
+        return relatorio;
+      } else if (relatorio.dataValues.volume < valorCritico) {
+        relatorio.status = "Critico";
+        await relatorio.save();
+        return relatorio;
+      } else {
+        relatorio.status = "Bom";
+        await relatorio.save();
+        return relatorio;
+      }
     } else {
-      relatorio.status = "Bom";
+      relatorio.status = "Nao informado";
       await relatorio.save();
       return relatorio;
     }
